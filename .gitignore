@@ -9,15 +9,15 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-venv/
-.venv/
+/venv/
+/.venv/
 
 # Large generated datasets and checkpoints. Their Stage-1 hashes are recorded
 # in stage1_freeze/manifest.json.
-data/
-data_height/
-checkpoints/
-checkpoints_height/
+/data/
+/data_height/
+/checkpoints/
+/checkpoints_height/
 *.pt
 *.pth
 *.ckpt
