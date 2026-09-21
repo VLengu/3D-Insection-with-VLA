@@ -1,0 +1,35 @@
+# macOS and editor metadata
+.DS_Store
+*.swp
+*.swo
+
+# Python caches and environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+venv/
+.venv/
+
+# Large generated datasets and checkpoints. Their Stage-1 hashes are recorded
+# in stage1_freeze/manifest.json.
+data/
+data_height/
+checkpoints/
+checkpoints_height/
+*.pt
+*.pth
+*.ckpt
+
+# Future Stage-2 generated artifacts
+stage2/data/
+stage2/checkpoints/
+stage2/outputs/
+
+# Local secrets and machine-specific configuration
+.env
+.env.*
+!.env.example
+secrets/
+

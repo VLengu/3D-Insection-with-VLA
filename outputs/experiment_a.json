@@ -1,0 +1,74 @@
+{
+  "protocol": {
+    "paired_noise": "identical",
+    "route_mode": "XY footprint",
+    "training": {
+      "epochs": 8,
+      "batch_size": 32,
+      "hidden_dim": 256,
+      "depth": 4,
+      "heads": 4,
+      "seed": 42,
+      "trajectory_loss_weight": 2.0
+    }
+  },
+  "models": {
+    "experiment-a": {
+      "checkpoint": "checkpoints_height/experiment_a/route_head_seed42/best_full-3d_base.pt",
+      "condition": "full-3d",
+      "checkpoint_epoch": 8,
+      "metrics": {
+        "val": {
+          "success": 0.4633333333333333,
+          "endpoint_distance": 0.0410791116465504,
+          "collision_rate": 0.494,
+          "bounds_violation_rate": 0.08466666666666667,
+          "path_mode_accuracy": 0.532,
+          "paired_both_modes_correct": 0.11333333333333333,
+          "paired_decisions_differ": 0.16266666666666665,
+          "route_classifier_accuracy": 1.0
+        },
+        "height_ood": {
+          "success": 0.5753333333333334,
+          "endpoint_distance": 0.04132443305229147,
+          "collision_rate": 0.35333333333333333,
+          "bounds_violation_rate": 0.084,
+          "path_mode_accuracy": 0.5586666666666666,
+          "paired_both_modes_correct": 0.14666666666666667,
+          "paired_decisions_differ": 0.176,
+          "route_classifier_accuracy": 1.0
+        },
+        "layout_ood": {
+          "success": 0.5073333333333333,
+          "endpoint_distance": 0.039555329236046724,
+          "collision_rate": 0.44266666666666665,
+          "bounds_violation_rate": 0.08466666666666667,
+          "path_mode_accuracy": 0.5413333333333333,
+          "paired_both_modes_correct": 0.11733333333333333,
+          "paired_decisions_differ": 0.152,
+          "route_classifier_accuracy": 1.0
+        },
+        "camera_ood": {
+          "success": 0.438,
+          "endpoint_distance": 0.04201477009151131,
+          "collision_rate": 0.508,
+          "bounds_violation_rate": 0.09266666666666666,
+          "path_mode_accuracy": 0.542,
+          "paired_both_modes_correct": 0.13466666666666666,
+          "paired_decisions_differ": 0.18533333333333332,
+          "route_classifier_accuracy": 1.0
+        },
+        "paired_test": {
+          "success": 0.46266666666666667,
+          "endpoint_distance": 0.04104248462524265,
+          "collision_rate": 0.49333333333333335,
+          "bounds_violation_rate": 0.09266666666666666,
+          "path_mode_accuracy": 0.5413333333333333,
+          "paired_both_modes_correct": 0.13066666666666665,
+          "paired_decisions_differ": 0.17866666666666667,
+          "route_classifier_accuracy": 1.0
+        }
+      }
+    }
+  }
+}

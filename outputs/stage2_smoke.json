@@ -1,0 +1,294 @@
+{
+  "data": "data/ood_partial.npz",
+  "models": {
+    "adaln-only": {
+      "runs": [
+        {
+          "baseline": {
+            "success": 1.0,
+            "final_distance": 0.029807990416884422
+          },
+          "zero": {
+            "success": 0.0,
+            "final_distance": 0.342451274394989,
+            "endpoint_change": 0.33977603912353516
+          },
+          "shuffle": {
+            "success": 0.03125,
+            "final_distance": 0.35702452063560486,
+            "endpoint_change": 0.3536730110645294
+          },
+          "shift": {
+            "shifted_goal_final_distance": 0.03669547289609909,
+            "endpoint_change": 0.17483769357204437,
+            "response_alignment": 0.9996092319488525,
+            "projection_sensitivity": 0.8738477826118469,
+            "correct_direction_rate": 1.0
+          },
+          "conflict": {
+            "rgb_goal_final_distance": 0.604121208190918,
+            "z3d_goal_final_distance": 0.07908627390861511,
+            "rgb_alignment": -0.9809213876724243,
+            "z3d_alignment": 0.9809213280677795,
+            "z3d_preference_rate": 1.0
+          }
+        }
+      ],
+      "metadata": [
+        {
+          "checkpoint": "checkpoints/alpha_sweep_e6/alpha_0_seed42/best_base.pt",
+          "data": "data/ood_partial.npz",
+          "examples": 32,
+          "device": "mps",
+          "inference_steps": 4,
+          "eval_seed": 20260916,
+          "train_args": {
+            "mode": "base",
+            "data": "data",
+            "epochs": 6,
+            "batch_size": 16,
+            "grad_accum": 2,
+            "hidden_dim": 384,
+            "depth": 6,
+            "heads": 6,
+            "lr": 0.0003,
+            "seed": 42,
+            "eval_every": 1,
+            "inference_steps": 10,
+            "prediction_type": "v",
+            "three_d_adaln": true,
+            "correction_strength": 0.0,
+            "goal_loss_weight": 3.0,
+            "direction_loss_weight": 0.5,
+            "visual_goal_loss_weight": 5.0,
+            "aux_min_alpha_bar": 0.2,
+            "train_goal_occlusion_prob": 0.5,
+            "train_goal_occlusion_style": "partial",
+            "limit_train": null,
+            "limit_eval": null,
+            "checkpoint_dir": "checkpoints/alpha_sweep_e6/alpha_0_seed42"
+          }
+        }
+      ],
+      "aggregate": {
+        "baseline.success": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "baseline.final_distance": {
+          "mean": 0.029807990416884422,
+          "std": 0.0
+        },
+        "zero.success": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "zero.final_distance": {
+          "mean": 0.342451274394989,
+          "std": 0.0
+        },
+        "zero.endpoint_change": {
+          "mean": 0.33977603912353516,
+          "std": 0.0
+        },
+        "shuffle.success": {
+          "mean": 0.03125,
+          "std": 0.0
+        },
+        "shuffle.final_distance": {
+          "mean": 0.35702452063560486,
+          "std": 0.0
+        },
+        "shuffle.endpoint_change": {
+          "mean": 0.3536730110645294,
+          "std": 0.0
+        },
+        "shift.shifted_goal_final_distance": {
+          "mean": 0.03669547289609909,
+          "std": 0.0
+        },
+        "shift.endpoint_change": {
+          "mean": 0.17483769357204437,
+          "std": 0.0
+        },
+        "shift.response_alignment": {
+          "mean": 0.9996092319488525,
+          "std": 0.0
+        },
+        "shift.projection_sensitivity": {
+          "mean": 0.8738477826118469,
+          "std": 0.0
+        },
+        "shift.correct_direction_rate": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "conflict.rgb_goal_final_distance": {
+          "mean": 0.604121208190918,
+          "std": 0.0
+        },
+        "conflict.z3d_goal_final_distance": {
+          "mean": 0.07908627390861511,
+          "std": 0.0
+        },
+        "conflict.rgb_alignment": {
+          "mean": -0.9809213876724243,
+          "std": 0.0
+        },
+        "conflict.z3d_alignment": {
+          "mean": 0.9809213280677795,
+          "std": 0.0
+        },
+        "conflict.z3d_preference_rate": {
+          "mean": 1.0,
+          "std": 0.0
+        }
+      }
+    },
+    "adaln-middle-0025": {
+      "runs": [
+        {
+          "baseline": {
+            "success": 1.0,
+            "final_distance": 0.02256716787815094
+          },
+          "zero": {
+            "success": 0.0,
+            "final_distance": 0.35042276978492737,
+            "endpoint_change": 0.3452110290527344
+          },
+          "shuffle": {
+            "success": 0.03125,
+            "final_distance": 0.3548412621021271,
+            "endpoint_change": 0.354182630777359
+          },
+          "shift": {
+            "shifted_goal_final_distance": 0.028536861762404442,
+            "endpoint_change": 0.1730993092060089,
+            "response_alignment": 0.9996492266654968,
+            "projection_sensitivity": 0.8651881814002991,
+            "correct_direction_rate": 1.0
+          },
+          "conflict": {
+            "rgb_goal_final_distance": 0.601809561252594,
+            "z3d_goal_final_distance": 0.07514207065105438,
+            "rgb_alignment": -0.9969197511672974,
+            "z3d_alignment": 0.9969198703765869,
+            "z3d_preference_rate": 1.0
+          }
+        }
+      ],
+      "metadata": [
+        {
+          "checkpoint": "checkpoints/alpha_sweep_e6/alpha_0p025_seed42/best_middle.pt",
+          "data": "data/ood_partial.npz",
+          "examples": 32,
+          "device": "mps",
+          "inference_steps": 4,
+          "eval_seed": 20260916,
+          "train_args": {
+            "mode": "middle",
+            "data": "data",
+            "epochs": 6,
+            "batch_size": 16,
+            "grad_accum": 2,
+            "hidden_dim": 384,
+            "depth": 6,
+            "heads": 6,
+            "lr": 0.0003,
+            "seed": 42,
+            "eval_every": 1,
+            "inference_steps": 10,
+            "prediction_type": "v",
+            "three_d_adaln": true,
+            "correction_strength": 0.025,
+            "goal_loss_weight": 3.0,
+            "direction_loss_weight": 0.5,
+            "visual_goal_loss_weight": 5.0,
+            "aux_min_alpha_bar": 0.2,
+            "train_goal_occlusion_prob": 0.5,
+            "train_goal_occlusion_style": "partial",
+            "limit_train": null,
+            "limit_eval": null,
+            "checkpoint_dir": "checkpoints/alpha_sweep_e6/alpha_0p025_seed42"
+          }
+        }
+      ],
+      "aggregate": {
+        "baseline.success": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "baseline.final_distance": {
+          "mean": 0.02256716787815094,
+          "std": 0.0
+        },
+        "zero.success": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "zero.final_distance": {
+          "mean": 0.35042276978492737,
+          "std": 0.0
+        },
+        "zero.endpoint_change": {
+          "mean": 0.3452110290527344,
+          "std": 0.0
+        },
+        "shuffle.success": {
+          "mean": 0.03125,
+          "std": 0.0
+        },
+        "shuffle.final_distance": {
+          "mean": 0.3548412621021271,
+          "std": 0.0
+        },
+        "shuffle.endpoint_change": {
+          "mean": 0.354182630777359,
+          "std": 0.0
+        },
+        "shift.shifted_goal_final_distance": {
+          "mean": 0.028536861762404442,
+          "std": 0.0
+        },
+        "shift.endpoint_change": {
+          "mean": 0.1730993092060089,
+          "std": 0.0
+        },
+        "shift.response_alignment": {
+          "mean": 0.9996492266654968,
+          "std": 0.0
+        },
+        "shift.projection_sensitivity": {
+          "mean": 0.8651881814002991,
+          "std": 0.0
+        },
+        "shift.correct_direction_rate": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "conflict.rgb_goal_final_distance": {
+          "mean": 0.601809561252594,
+          "std": 0.0
+        },
+        "conflict.z3d_goal_final_distance": {
+          "mean": 0.07514207065105438,
+          "std": 0.0
+        },
+        "conflict.rgb_alignment": {
+          "mean": -0.9969197511672974,
+          "std": 0.0
+        },
+        "conflict.z3d_alignment": {
+          "mean": 0.9969198703765869,
+          "std": 0.0
+        },
+        "conflict.z3d_preference_rate": {
+          "mean": 1.0,
+          "std": 0.0
+        }
+      }
+    }
+  },
+  "note": "Condition-dependence tests on the planar dataset; not proof of genuine 3D reasoning."
+}

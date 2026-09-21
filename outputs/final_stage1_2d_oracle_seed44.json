@@ -1,0 +1,69 @@
+{
+  "protocol": {
+    "paired_noise": "identical",
+    "route_mode": "XY footprint",
+    "training": {
+      "epochs": 8,
+      "batch_size": 32,
+      "hidden_dim": 256,
+      "depth": 4,
+      "heads": 4,
+      "seed": 44,
+      "trajectory_loss_weight": 2.0
+    }
+  },
+  "models": {
+    "2d-oracle-AdaLN": {
+      "checkpoint": "checkpoints_height/final_stage1/2d-oracle_seed44/best_2d-oracle_base.pt",
+      "condition": "2d-oracle",
+      "checkpoint_epoch": 8,
+      "metrics": {
+        "val": {
+          "success": 0.30733333333333335,
+          "endpoint_distance": 0.03149110813004275,
+          "collision_rate": 0.6846666666666666,
+          "bounds_violation_rate": 0.004,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        },
+        "height_ood": {
+          "success": 0.42,
+          "endpoint_distance": 0.031008354401526352,
+          "collision_rate": 0.5733333333333334,
+          "bounds_violation_rate": 0.0026666666666666666,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        },
+        "layout_ood": {
+          "success": 0.38866666666666666,
+          "endpoint_distance": 0.03406663960435738,
+          "collision_rate": 0.6006666666666667,
+          "bounds_violation_rate": 0.0013333333333333333,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        },
+        "camera_ood": {
+          "success": 0.31733333333333336,
+          "endpoint_distance": 0.03063508401081587,
+          "collision_rate": 0.6793333333333333,
+          "bounds_violation_rate": 0.0013333333333333333,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        },
+        "paired_test": {
+          "success": 0.3273333333333333,
+          "endpoint_distance": 0.03121181423574065,
+          "collision_rate": 0.668,
+          "bounds_violation_rate": 0.0026666666666666666,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        }
+      }
+    }
+  }
+}

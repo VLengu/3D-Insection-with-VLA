@@ -1,0 +1,76 @@
+{
+  "checkpoint": "checkpoints_height/experiment_a/route_head_seed42/best_full-3d_base.pt",
+  "independent_classifier": {
+    "validation_accuracy": 1.0
+  },
+  "metrics": {
+    "predicted": {
+      "footprint_crossing_rate": 0.734000027179718,
+      "semantic_over_rate": 0.734000027179718,
+      "independent_over_rate": 0.5,
+      "semantic_classifier_agreement": 0.550000011920929,
+      "semantic_mode_accuracy": 0.550000011920929,
+      "independent_mode_accuracy": 1.0,
+      "collision_rate": 0.46799999475479126,
+      "max_z_mean": 0.118378184735775,
+      "max_z_std": 0.07957559078931808,
+      "endpoint_distance": 0.041532162576913834
+    },
+    "forced_over": {
+      "footprint_crossing_rate": 0.7846666574478149,
+      "semantic_over_rate": 0.7846666574478149,
+      "independent_over_rate": 1.0,
+      "semantic_classifier_agreement": 0.7846666574478149,
+      "semantic_mode_accuracy": 0.49933332204818726,
+      "independent_mode_accuracy": 0.5,
+      "collision_rate": 0.518666684627533,
+      "max_z_mean": 0.22569553554058075,
+      "max_z_std": 0.03792715445160866,
+      "endpoint_distance": 0.05642111226916313
+    },
+    "forced_around": {
+      "footprint_crossing_rate": 0.6833333373069763,
+      "semantic_over_rate": 0.6833333373069763,
+      "independent_over_rate": 0.0,
+      "semantic_classifier_agreement": 0.3166666626930237,
+      "semantic_mode_accuracy": 0.49933332204818726,
+      "independent_mode_accuracy": 0.5,
+      "collision_rate": 0.6833333373069763,
+      "max_z_mean": 0.04027098789811134,
+      "max_z_std": 0.0009246283443644643,
+      "endpoint_distance": 0.04262339323759079
+    },
+    "swapped": {
+      "footprint_crossing_rate": 0.734000027179718,
+      "semantic_over_rate": 0.734000027179718,
+      "independent_over_rate": 0.5,
+      "semantic_classifier_agreement": 0.5513333082199097,
+      "semantic_mode_accuracy": 0.44866666197776794,
+      "independent_mode_accuracy": 0.0,
+      "collision_rate": 0.734000027179718,
+      "max_z_mean": 0.14758017659187317,
+      "max_z_std": 0.10900117456912994,
+      "endpoint_distance": 0.05750424042344093
+    },
+    "zero": {
+      "footprint_crossing_rate": 0.7613333463668823,
+      "semantic_over_rate": 0.7613333463668823,
+      "independent_over_rate": 0.007333333138376474,
+      "semantic_classifier_agreement": 0.24199999868869781,
+      "semantic_mode_accuracy": 0.4933333396911621,
+      "independent_mode_accuracy": 0.49266666173934937,
+      "collision_rate": 0.7613333463668823,
+      "max_z_mean": 0.05970531702041626,
+      "max_z_std": 0.010548490099608898,
+      "endpoint_distance": 0.12078333646059036
+    },
+    "causal_effect": {
+      "forced_trajectory_l2": 1.0389381647109985,
+      "forced_mode_flip_rate": 0.17866666615009308,
+      "forced_max_z_delta": 0.1854245662689209,
+      "forced_endpoint_delta": 0.05763091892004013,
+      "zero_vs_predicted_l2": 0.7188032269477844,
+      "swapped_vs_predicted_l2": 1.038882851600647
+    }
+  }
+}

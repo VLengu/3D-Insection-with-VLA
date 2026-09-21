@@ -1,0 +1,173 @@
+{
+  "protocol": {
+    "paired_noise": "identical",
+    "route_mode": "XY footprint",
+    "training": {
+      "epochs": 8,
+      "batch_size": 32,
+      "hidden_dim": 256,
+      "depth": 4,
+      "heads": 4,
+      "seed": 42,
+      "trajectory_loss_weight": 2.0
+    }
+  },
+  "models": {
+    "rgb-only": {
+      "checkpoint": "checkpoints_height/core_e8/rgb-only_seed42/best_rgb-only_base.pt",
+      "condition": "rgb-only",
+      "checkpoint_epoch": 6,
+      "metrics": {
+        "val": {
+          "success": 0.26666666666666666,
+          "endpoint_distance": 0.047640864783277115,
+          "collision_rate": 0.6873333333333334,
+          "bounds_violation_rate": 0.028,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        },
+        "height_ood": {
+          "success": 0.354,
+          "endpoint_distance": 0.04710453260193268,
+          "collision_rate": 0.578,
+          "bounds_violation_rate": 0.029333333333333333,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        },
+        "layout_ood": {
+          "success": 0.33666666666666667,
+          "endpoint_distance": 0.04726808609316746,
+          "collision_rate": 0.618,
+          "bounds_violation_rate": 0.02666666666666667,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        },
+        "camera_ood": {
+          "success": 0.10733333333333334,
+          "endpoint_distance": 0.12663778415570656,
+          "collision_rate": 0.6386666666666667,
+          "bounds_violation_rate": 0.034666666666666665,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        },
+        "paired_test": {
+          "success": 0.274,
+          "endpoint_distance": 0.04799387120703856,
+          "collision_rate": 0.6853333333333333,
+          "bounds_violation_rate": 0.02266666666666667,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        }
+      }
+    },
+    "2d-oracle": {
+      "checkpoint": "checkpoints_height/core_e8/2d-oracle_seed42/best_2d-oracle_base.pt",
+      "condition": "2d-oracle",
+      "checkpoint_epoch": 8,
+      "metrics": {
+        "val": {
+          "success": 0.328,
+          "endpoint_distance": 0.036842548760895925,
+          "collision_rate": 0.6646666666666666,
+          "bounds_violation_rate": 0.0013333333333333333,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        },
+        "height_ood": {
+          "success": 0.474,
+          "endpoint_distance": 0.03833025872086485,
+          "collision_rate": 0.51,
+          "bounds_violation_rate": 0.0,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        },
+        "layout_ood": {
+          "success": 0.366,
+          "endpoint_distance": 0.03827172263804823,
+          "collision_rate": 0.614,
+          "bounds_violation_rate": 0.005333333333333333,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        },
+        "camera_ood": {
+          "success": 0.35,
+          "endpoint_distance": 0.0374192370052139,
+          "collision_rate": 0.6426666666666667,
+          "bounds_violation_rate": 0.004,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        },
+        "paired_test": {
+          "success": 0.31666666666666665,
+          "endpoint_distance": 0.03600930065754801,
+          "collision_rate": 0.6733333333333333,
+          "bounds_violation_rate": 0.0026666666666666666,
+          "path_mode_accuracy": 0.5,
+          "paired_both_modes_correct": 0.0,
+          "paired_decisions_differ": 0.0
+        }
+      }
+    },
+    "full-3d": {
+      "checkpoint": "checkpoints_height/core_e8/full-3d_seed42/best_full-3d_base.pt",
+      "condition": "full-3d",
+      "checkpoint_epoch": 4,
+      "metrics": {
+        "val": {
+          "success": 0.404,
+          "endpoint_distance": 0.045837771147334325,
+          "collision_rate": 0.5686666666666667,
+          "bounds_violation_rate": 0.004,
+          "path_mode_accuracy": 0.524,
+          "paired_both_modes_correct": 0.09866666666666667,
+          "paired_decisions_differ": 0.14933333333333335
+        },
+        "height_ood": {
+          "success": 0.584,
+          "endpoint_distance": 0.04860328713462998,
+          "collision_rate": 0.35733333333333334,
+          "bounds_violation_rate": 0.0013333333333333333,
+          "path_mode_accuracy": 0.562,
+          "paired_both_modes_correct": 0.152,
+          "paired_decisions_differ": 0.18
+        },
+        "layout_ood": {
+          "success": 0.44133333333333336,
+          "endpoint_distance": 0.04514231621085977,
+          "collision_rate": 0.5186666666666667,
+          "bounds_violation_rate": 0.006666666666666667,
+          "path_mode_accuracy": 0.5506666666666666,
+          "paired_both_modes_correct": 0.12666666666666668,
+          "paired_decisions_differ": 0.152
+        },
+        "camera_ood": {
+          "success": 0.4066666666666667,
+          "endpoint_distance": 0.046099181936122474,
+          "collision_rate": 0.56,
+          "bounds_violation_rate": 0.004666666666666667,
+          "path_mode_accuracy": 0.5386666666666666,
+          "paired_both_modes_correct": 0.12133333333333333,
+          "paired_decisions_differ": 0.16533333333333333
+        },
+        "paired_test": {
+          "success": 0.404,
+          "endpoint_distance": 0.04491740293925007,
+          "collision_rate": 0.5706666666666667,
+          "bounds_violation_rate": 0.005333333333333333,
+          "path_mode_accuracy": 0.5326666666666666,
+          "paired_both_modes_correct": 0.11466666666666667,
+          "paired_decisions_differ": 0.164
+        }
+      }
+    }
+  }
+}
