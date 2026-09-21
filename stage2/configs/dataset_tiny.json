@@ -1,0 +1,17 @@
+{
+  "profile": "tiny",
+  "schema_version": "dual-clearance-v0.1",
+  "master_seed": 20260921,
+  "fps": 20,
+  "max_episode_steps": 300,
+  "image_shape": [3, 256, 256],
+  "splits": {
+    "train": 16,
+    "val": 4,
+    "paired_test": 8,
+    "height_ood": 4,
+    "layout_ood": 4,
+    "camera_ood": 4,
+    "compound_ood": 4
+  }
+}

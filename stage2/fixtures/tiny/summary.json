@@ -1,0 +1,48 @@
+{
+  "pairs": 44,
+  "records": 88,
+  "splits": {
+    "camera_ood": {
+      "episodes": 8,
+      "over": 4,
+      "pairs": 4,
+      "side": 4
+    },
+    "compound_ood": {
+      "episodes": 8,
+      "over": 4,
+      "pairs": 4,
+      "side": 4
+    },
+    "height_ood": {
+      "episodes": 8,
+      "over": 4,
+      "pairs": 4,
+      "side": 4
+    },
+    "layout_ood": {
+      "episodes": 8,
+      "over": 4,
+      "pairs": 4,
+      "side": 4
+    },
+    "paired_test": {
+      "episodes": 16,
+      "over": 8,
+      "pairs": 8,
+      "side": 8
+    },
+    "train": {
+      "episodes": 32,
+      "over": 16,
+      "pairs": 16,
+      "side": 16
+    },
+    "val": {
+      "episodes": 8,
+      "over": 4,
+      "pairs": 4,
+      "side": 4
+    }
+  }
+}

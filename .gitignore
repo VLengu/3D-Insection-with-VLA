@@ -22,8 +22,9 @@ checkpoints_height/
 *.pth
 *.ckpt
 
-# Future Stage-2 generated artifacts
-stage2/data/
+# Future Stage-2 generated artifacts. Source code lives in stage2/data/;
+# generated Pilot/Formal datasets use a separate directory.
+stage2/generated_data/
 stage2/checkpoints/
 stage2/outputs/
 
@@ -32,4 +33,3 @@ stage2/outputs/
 .env.*
 !.env.example
 secrets/
-

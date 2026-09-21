@@ -5,6 +5,8 @@
 >
 > 第二阶段的 Mac 本地构建、数据设计、验证门和 GPU 实验交接方案见
 > `docs/STAGE2_MAC_BUILD_VALIDATION_PLAN_ZH.md`。
+> 第二阶段 M1 几何与数据契约已通过验证，报告见
+> `stage2/M1_GEOMETRY_DATA_CONTRACT_REPORT_ZH.md`。
 
 这是一个面向 Apple Silicon 本地实验的最小验证项目。它不复现大规模 UWM 预训练，而是隔离检验一个假设：**在高噪声的反向扩散初期，用显式 3D 关系修正动作噪声预测，是否比后期或全程修正更有效。**
 
