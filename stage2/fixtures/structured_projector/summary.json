@@ -1,0 +1,88 @@
+{
+  "checkpoint_sha256": "efde48bf264a28935c452e8b28d5682115ea7596a67d62c0fd6c17713a9b8661",
+  "checks": {
+    "all_88_scenes_loaded": true,
+    "all_device_checks_pass": true,
+    "all_parameters_trainable": true,
+    "checkpoint_roundtrip_exact": true,
+    "expected_output_shape": true,
+    "forbidden_fields_absent": true,
+    "identical_attention_masks": true,
+    "identical_output_shapes": true,
+    "identical_parameter_counts": true,
+    "masked_2d_slots_invariant": true,
+    "paired_2d_tokens_identical": true,
+    "paired_3d_tokens_different": true
+  },
+  "device_checks": [
+    {
+      "attention_equal": true,
+      "device": "cpu",
+      "finite": true,
+      "gradient_abs_sum": 5.116932316132079,
+      "gradient_nonzero": true,
+      "loss": 1.9999785423278809,
+      "output_shape_2d": [
+        88,
+        6,
+        128
+      ],
+      "output_shape_3d": [
+        88,
+        6,
+        128
+      ]
+    },
+    {
+      "attention_equal": true,
+      "device": "mps",
+      "finite": true,
+      "gradient_abs_sum": 5.117133606674997,
+      "gradient_nonzero": true,
+      "loss": 1.9999784231185913,
+      "output_shape_2d": [
+        8,
+        6,
+        128
+      ],
+      "output_shape_3d": [
+        8,
+        6,
+        128
+      ]
+    }
+  ],
+  "hidden_dim": 128,
+  "mps_available": true,
+  "paired_token_checks": {
+    "2d_equal_within_1e-6_pairs": 44,
+    "2d_max_absolute_error": 1.1920928955078125e-07,
+    "3d_different_pairs": 44,
+    "3d_min_max_absolute_difference": 0.008812189102172852
+  },
+  "pairs": 44,
+  "parameter_counts": {
+    "2d_total": 38272,
+    "2d_trainable": 38272,
+    "3d_total": 38272,
+    "3d_trainable": 38272,
+    "difference": 0
+  },
+  "projector_version": "typed-structured-projector-v1",
+  "raw_width": 8,
+  "scenes": 88,
+  "status": "PASS",
+  "token_count": 6,
+  "token_names": [
+    "object",
+    "goal",
+    "central_obstacle",
+    "side_gate",
+    "robot",
+    "global"
+  ],
+  "valid_feature_slots_per_scene": {
+    "2d": 14,
+    "3d": 26
+  }
+}

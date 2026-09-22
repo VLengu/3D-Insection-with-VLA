@@ -539,7 +539,7 @@ stage2/
 
 验收：导出再读取后，数值字段在容差内相同，episode 和 pair 数量完全一致。
 
-### 步骤 6：实现统一 structured projector
+### 步骤 6：实现统一 structured projector（已完成，2026-09-22）
 
 目标：四个模型共用同一套输入规范。
 
@@ -552,6 +552,10 @@ stage2/
 5. 输出 token mask 和类型 embedding。
 
 验收：2D/3D projector 输出 shape 完全相同，参数量差异在预先规定范围内。
+
+验证证据见 `stage2/GATE_M4A_STRUCTURED_PROJECTOR_REPORT_ZH.md` 与
+`stage2/fixtures/structured_projector/summary.json`。Gate M4 整体仍需等待
+VL/A 注入边界和 TinyContractVLA 验证完成。
 
 ### 步骤 7：实现严格的 VL/A 注入边界
 

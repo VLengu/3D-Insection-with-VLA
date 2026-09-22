@@ -4,7 +4,7 @@
 数据和 checkpoint 不在此处修改。
 
 当前已完成 M1 几何/数据契约、M2 MuJoCo/专家回放、LeRobot 往返验证和
-Gate M3 统一评价器验证：
+Gate M3 统一评价器验证；Gate M4A structured projector 也已通过：
 
 - Dual-Clearance 成对几何生成；
 - 模型输入与评估元数据 Schema；
@@ -17,11 +17,14 @@ Gate M3 统一评价器验证：
 - 评价元数据与模型 frame features 隔离。
 - 统一 episode、pair、split 评价与中英指标协议；
 - 正确、错误和固定路线策略的全量物理重放验证。
+- 统一 6-token structured projector，2D/3D shape 与参数量完全一致；
+- CPU 与 Apple MPS 前向、反向和 checkpoint 往返验证。
 
 M2 设计和结果见 `M2_MUJOCO_EXPERT_REPLAY_REPORT_ZH.md`，M2.5 视觉质量整改见
 `M2_5_VISUAL_QUALITY_REPORT_ZH.md`。
 LeRobot 导出设计和结果见 `M3_LEROBOT_ROUNDTRIP_REPORT_ZH.md`。
 统一评价器设计和 Gate M3 结果见 `GATE_M3_EVALUATOR_REPORT_ZH.md`。
+Projector 设计和 Gate M4A 结果见 `GATE_M4A_STRUCTURED_PROJECTOR_REPORT_ZH.md`。
 
 生成并验证 Tiny 数据：
 
@@ -75,6 +78,15 @@ venv_stage2/bin/python -m stage2.data.validate_lerobot \
 venv_stage2/bin/python -m stage2.validation.evaluate_gate_m3 \
   --config stage2/configs/dataset_tiny.json \
   --output stage2/fixtures/evaluator_tiny
+```
+
+运行 Gate M4A projector 验证：
+
+```bash
+venv_stage2/bin/python -m stage2.validation.validate_structured_projector \
+  --config stage2/configs/dataset_tiny.json \
+  --output stage2/fixtures/structured_projector \
+  --hidden-dim 128
 ```
 
 ## 坐标与动作契约
