@@ -4,7 +4,8 @@
 数据和 checkpoint 不在此处修改。
 
 当前已完成 M1 几何/数据契约、M2 MuJoCo/专家回放、LeRobot 往返验证和
-Gate M3 统一评价器验证；Gate M4A projector 与 M4B 注入边界也已通过：
+Gate M3 统一评价器验证；Gate M4A projector、M4B 注入边界和 M4C
+TinyContractVLA 端到端链路也已通过：
 
 - Dual-Clearance 成对几何生成；
 - 模型输入与评估元数据 Schema；
@@ -21,6 +22,8 @@ Gate M3 统一评价器验证；Gate M4A projector 与 M4B 注入边界也已通
 - CPU 与 Apple MPS 前向、反向和 checkpoint 往返验证。
 - VL/A 两条注入路径由 trace、hook 和反事实 oracle 自动验证；
 - 四种配置参数预算与 action memory 长度一致。
+- 真实 LeRobot RGB/task/state/oracle/action chunk 训练链路；
+- 四配置 MPS 小样本过拟合与 checkpoint 恢复。
 
 M2 设计和结果见 `M2_MUJOCO_EXPERT_REPLAY_REPORT_ZH.md`，M2.5 视觉质量整改见
 `M2_5_VISUAL_QUALITY_REPORT_ZH.md`。
@@ -28,6 +31,7 @@ LeRobot 导出设计和结果见 `M3_LEROBOT_ROUNDTRIP_REPORT_ZH.md`。
 统一评价器设计和 Gate M3 结果见 `GATE_M3_EVALUATOR_REPORT_ZH.md`。
 Projector 设计和 Gate M4A 结果见 `GATE_M4A_STRUCTURED_PROJECTOR_REPORT_ZH.md`。
 注入边界设计和 Gate M4B 结果见 `GATE_M4B_INJECTION_BOUNDARY_REPORT_ZH.md`。
+TinyContractVLA 和完整 Gate M4 结果见 `GATE_M4C_TINY_CONTRACT_VLA_REPORT_ZH.md`。
 
 生成并验证 Tiny 数据：
 
@@ -99,6 +103,16 @@ venv_stage2/bin/python -m stage2.validation.validate_injection_boundary \
   --config stage2/configs/dataset_tiny.json \
   --output stage2/fixtures/injection_boundary \
   --hidden-dim 64
+```
+
+运行 Gate M4C 端到端训练验证：
+
+```bash
+venv_stage2/bin/python -m stage2.validation.validate_tiny_contract_vla \
+  --dataset stage2/generated_data/lerobot_tiny \
+  --output stage2/fixtures/tiny_contract_vla \
+  --hidden-dim 64 \
+  --steps 400
 ```
 
 ## 坐标与动作契约

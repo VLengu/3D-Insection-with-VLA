@@ -586,7 +586,7 @@ expert。对于相同 RGB 和语言，A-2D 与 A-3D 的 VLM contextual features 
 `stage2/fixtures/injection_boundary/summary.json`。Gate M4 整体仍需等待
 TinyContractVLA 端到端验证完成。
 
-### 步骤 8：使用 Tiny Contract VLA 做端到端测试
+### 步骤 8：使用 Tiny Contract VLA 做端到端测试（已完成，2026-09-22）
 
 Mac 阶段不要求运行完整 SmolVLA。实现一个接口相同、规模很小的
 `TinyContractVLA`：
@@ -607,6 +607,10 @@ Mac 阶段不要求运行完整 SmolVLA。实现一个接口相同、规模很�
 - 注入边界测试可自动执行。
 
 Tiny 模型结果不能写入正式实验表。
+
+端到端数据、梯度、过拟合和 checkpoint 证据见
+`stage2/GATE_M4C_TINY_CONTRACT_VLA_REPORT_ZH.md` 与
+`stage2/fixtures/tiny_contract_vla/summary.json`。
 
 ### 步骤 9：做数据泄漏与捷径检查
 
@@ -674,7 +678,7 @@ Formal 数据生成配置
 验证证据见 `stage2/GATE_M3_EVALUATOR_REPORT_ZH.md` 与
 `stage2/fixtures/evaluator_tiny/summary.json`。
 
-### Gate M4：模型边界有效
+### Gate M4：模型边界有效（已通过，2026-09-22）
 
 - VL/A 注入位置由自动测试证明；
 - 四模型输入 shape 相同；
@@ -682,6 +686,9 @@ Formal 数据生成配置
 - A 侧 VLM 不受 oracle 改变；
 - VL 侧上下文受 oracle 改变；
 - Tiny 模型四配置均可完成 forward/backward。
+
+Gate M4 由 M4A projector、M4B 注入边界和 M4C TinyContractVLA 三份报告共同
+验收。该放行只覆盖 Mac 工程合同，不代表正式 SmolVLA 结果。
 
 ### Gate M5：GPU 可执行包完整
 
