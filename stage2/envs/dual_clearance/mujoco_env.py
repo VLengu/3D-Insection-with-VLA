@@ -36,6 +36,7 @@ class DualClearanceMujocoEnv:
         self.controller: PandaCartesianController | None = None
         self.renderer: mujoco.Renderer | None = None
         self.grasped = False
+        self._ever_grasped = False
         self.collision = False
         self.drop = False
         self.bounds_violation = False
@@ -84,6 +85,7 @@ class DualClearanceMujocoEnv:
             self.model, height=self.image_size, width=self.image_size
         )
         self.grasped = False
+        self._ever_grasped = False
         self.collision = False
         self.drop = False
         self.bounds_violation = False
@@ -308,10 +310,17 @@ class DualClearanceMujocoEnv:
             data.ctrl[7] = 0.0
             if np.linalg.norm(self.controller.grip_position() - self.object_position()) <= 0.045:
                 self.grasped = True
+                self._ever_grasped = True
         elif action[6] > 0.5:
+            released_after_grasp = self.grasped and self._ever_grasped
             data.qpos[7:9] = 0.04
             data.ctrl[7] = 255.0
             self.grasped = False
+            if released_after_grasp:
+                position = self.object_position()
+                goal_distance = np.linalg.norm(position[:2] - np.asarray(scene.layout.goal_xy))
+                if goal_distance > 0.055:
+                    self.drop = True
 
         self._attach_object_to_grip()
         mujoco.mj_forward(model, data)

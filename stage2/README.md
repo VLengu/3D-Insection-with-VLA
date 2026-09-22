@@ -3,7 +3,8 @@
 本目录实现第二阶段的独立数据与模型接口。第一阶段的 `uwm3d/`、`scripts/`、
 数据和 checkpoint 不在此处修改。
 
-当前已完成 M1 几何/数据契约、M2 MuJoCo/专家回放和 M3 LeRobot 往返验证：
+当前已完成 M1 几何/数据契约、M2 MuJoCo/专家回放、LeRobot 往返验证和
+Gate M3 统一评价器验证：
 
 - Dual-Clearance 成对几何生成；
 - 模型输入与评估元数据 Schema；
@@ -14,10 +15,13 @@
 - 配对策略 RGB 字节级相同审计。
 - LeRobotDataset v3 导出、全量重载和 6,998 帧逐帧精确核验；
 - 评价元数据与模型 frame features 隔离。
+- 统一 episode、pair、split 评价与中英指标协议；
+- 正确、错误和固定路线策略的全量物理重放验证。
 
 M2 设计和结果见 `M2_MUJOCO_EXPERT_REPLAY_REPORT_ZH.md`，M2.5 视觉质量整改见
 `M2_5_VISUAL_QUALITY_REPORT_ZH.md`。
 LeRobot 导出设计和结果见 `M3_LEROBOT_ROUNDTRIP_REPORT_ZH.md`。
+统一评价器设计和 Gate M3 结果见 `GATE_M3_EVALUATOR_REPORT_ZH.md`。
 
 生成并验证 Tiny 数据：
 
@@ -63,6 +67,14 @@ venv_stage2/bin/python -m stage2.data.validate_lerobot \
   --config stage2/configs/dataset_tiny.json \
   --dataset stage2/generated_data/lerobot_tiny \
   --evidence stage2/fixtures/lerobot_tiny
+```
+
+运行 Gate M3 全量评价验证：
+
+```bash
+venv_stage2/bin/python -m stage2.validation.evaluate_gate_m3 \
+  --config stage2/configs/dataset_tiny.json \
+  --output stage2/fixtures/evaluator_tiny
 ```
 
 ## 坐标与动作契约

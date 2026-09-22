@@ -655,12 +655,15 @@ Formal 数据生成配置
 - 数据无标签泄漏；
 - 生成结果可由 seed 重现。
 
-### Gate M3：评价有效
+### Gate M3：评价有效（已通过，2026-09-22）
 
 - 构造的人工轨迹能触发预期成功/失败；
 - 连续碰撞和离散点碰撞差异已消除；
 - paired 指标与手工计算一致；
 - metric 名称有中英对照。
+
+验证证据见 `stage2/GATE_M3_EVALUATOR_REPORT_ZH.md` 与
+`stage2/fixtures/evaluator_tiny/summary.json`。
 
 ### Gate M4：模型边界有效
 

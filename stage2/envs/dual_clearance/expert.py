@@ -24,7 +24,18 @@ class ExpertResult:
 
 
 class ExpertFailure(RuntimeError):
-    """Raised when the deterministic local expert cannot finish a rollout."""
+    """Raised with the executed prefix when the expert cannot finish."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        actions: Iterable[tuple[float, ...]] = (),
+        final_info: dict[str, object] | None = None,
+    ) -> None:
+        super().__init__(message)
+        self.actions = tuple(actions)
+        self.final_info = final_info
 
 
 def _action_toward(env: DualClearanceMujocoEnv, target: np.ndarray) -> np.ndarray:
@@ -64,14 +75,18 @@ def _move(
         _, _, terminated, truncated, info = env.step(action)
         actions.append(tuple(float(value) for value in action))
         if (terminated or truncated) and not info["success"]:
-            raise ExpertFailure(f"Expert move terminated: {info}")
+            raise ExpertFailure(
+                f"Expert move terminated: {info}", actions=actions, final_info=info
+            )
         # A target can sit a few millimetres outside the fixed-orientation IK
         # workspace.  Accept a close, stalled transit waypoint; the final
         # placement waypoint remains strict.
         if stale_steps >= 8 and best_error <= 0.035:
             return
     raise ExpertFailure(
-        f"Waypoint not reached: target={target_array.tolist()} best_error={best_error:.6f}"
+        f"Waypoint not reached: target={target_array.tolist()} best_error={best_error:.6f}",
+        actions=actions,
+        final_info=env.info(),
     )
 
 
@@ -85,7 +100,9 @@ def _gripper(
     _, _, terminated, truncated, info = env.step(action)
     actions.append(tuple(float(value) for value in action))
     if (terminated or truncated) and not info["success"]:
-        raise ExpertFailure(f"Expert gripper step terminated: {info}")
+        raise ExpertFailure(
+            f"Expert gripper step terminated: {info}", actions=actions, final_info=info
+        )
 
 
 def rollout_expert(
@@ -119,7 +136,11 @@ def rollout_expert(
     mark("approach")
     _gripper(env, -1.0, actions)
     if not env.grasped:
-        raise ExpertFailure("Assisted grasp did not attach the object")
+        raise ExpertFailure(
+            "Assisted grasp did not attach the object",
+            actions=actions,
+            final_info=env.info(),
+        )
     mark("grasp")
 
     if route is Route.OVER:

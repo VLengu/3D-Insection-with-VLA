@@ -9,6 +9,8 @@
 > `stage2/M1_GEOMETRY_DATA_CONTRACT_REPORT_ZH.md`。
 > M3 LeRobotDataset 全量往返验证报告见
 > `stage2/M3_LEROBOT_ROUNDTRIP_REPORT_ZH.md`。
+> Gate M3 统一评价器验证报告见
+> `stage2/GATE_M3_EVALUATOR_REPORT_ZH.md`。
 
 这是一个面向 Apple Silicon 本地实验的最小验证项目。它不复现大规模 UWM 预训练，而是隔离检验一个假设：**在高噪声的反向扩散初期，用显式 3D 关系修正动作噪声预测，是否比后期或全程修正更有效。**
 
