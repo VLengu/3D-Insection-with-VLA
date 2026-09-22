@@ -13,6 +13,8 @@
 > `stage2/GATE_M3_EVALUATOR_REPORT_ZH.md`。
 > Gate M4A 统一 structured projector 报告见
 > `stage2/GATE_M4A_STRUCTURED_PROJECTOR_REPORT_ZH.md`。
+> Gate M4B VL/A 注入边界报告见
+> `stage2/GATE_M4B_INJECTION_BOUNDARY_REPORT_ZH.md`。
 
 这是一个面向 Apple Silicon 本地实验的最小验证项目。它不复现大规模 UWM 预训练，而是隔离检验一个假设：**在高噪声的反向扩散初期，用显式 3D 关系修正动作噪声预测，是否比后期或全程修正更有效。**
 

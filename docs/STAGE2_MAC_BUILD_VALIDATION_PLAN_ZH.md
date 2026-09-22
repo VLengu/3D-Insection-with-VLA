@@ -557,7 +557,7 @@ stage2/
 `stage2/fixtures/structured_projector/summary.json`。Gate M4 整体仍需等待
 VL/A 注入边界和 TinyContractVLA 验证完成。
 
-### 步骤 7：实现严格的 VL/A 注入边界
+### 步骤 7：实现严格的 VL/A 注入边界（已完成，2026-09-22）
 
 #### VL 侧
 
@@ -580,6 +580,11 @@ expert。对于相同 RGB 和语言，A-2D 与 A-3D 的 VLM contextual features 
 - 检查 VL 侧 features 会随 oracle 改变；
 - 输出各模型总参数和可训练参数；
 - 禁止通过 action normalization、padding 或 task text 泄漏模型类别。
+
+边界、hook、反事实 oracle 与梯度证据见
+`stage2/GATE_M4B_INJECTION_BOUNDARY_REPORT_ZH.md` 和
+`stage2/fixtures/injection_boundary/summary.json`。Gate M4 整体仍需等待
+TinyContractVLA 端到端验证完成。
 
 ### 步骤 8：使用 Tiny Contract VLA 做端到端测试
 

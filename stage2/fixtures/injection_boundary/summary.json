@@ -1,0 +1,367 @@
+{
+  "boundary_version": "vl-action-injection-boundary-v1",
+  "checkpoint_sha256": "a00c25b7cced49da2473ff7848dec8787bf4c02728aa36f5e44f2be8bc4d0ece",
+  "checks": {
+    "action_context_equal_within_1e-6_for_all_3d_pairs": true,
+    "action_context_hash_equal_across_modalities": true,
+    "action_context_survives_counterfactuals": true,
+    "action_memory_equal_length": true,
+    "action_outputs_change_for_all_3d_pairs": true,
+    "all_88_scenes_loaded": true,
+    "all_configurations_have_equal_parameter_budget": true,
+    "all_counterfactual_actions_change": true,
+    "all_device_configurations_finite_with_gradients": true,
+    "checkpoint_roundtrip_exact": true,
+    "paired_2d_outputs_equal": true,
+    "trace_boundaries_correct": true,
+    "vl_context_changes_for_all_3d_pairs": true,
+    "vl_outputs_change_for_all_3d_pairs": true
+  },
+  "counterfactual_checks": {
+    "action_2d": {
+      "shuffle_changes_actions": true,
+      "shuffle_preserves_action_context": true,
+      "zero_changes_actions": true,
+      "zero_preserves_action_context": true
+    },
+    "action_3d": {
+      "shuffle_changes_actions": true,
+      "shuffle_preserves_action_context": true,
+      "zero_changes_actions": true,
+      "zero_preserves_action_context": true
+    },
+    "vl_2d": {
+      "shuffle_changes_actions": true,
+      "shuffle_preserves_action_context": null,
+      "zero_changes_actions": true,
+      "zero_preserves_action_context": null
+    },
+    "vl_3d": {
+      "shuffle_changes_actions": true,
+      "shuffle_preserves_action_context": null,
+      "zero_changes_actions": true,
+      "zero_preserves_action_context": null
+    }
+  },
+  "device_checks": [
+    {
+      "configurations": {
+        "action_2d": {
+          "action_expert_gradient_abs_sum": 17.003589123487473,
+          "actions_shape": [
+            88,
+            4,
+            7
+          ],
+          "all_required_gradients_nonzero": true,
+          "context_shape": [
+            88,
+            7,
+            64
+          ],
+          "contextualizer_gradient_abs_sum": 10.894978588446975,
+          "finite": true,
+          "projector_gradient_abs_sum": 1.0329939052462578,
+          "trace": {
+            "action_memory_tokens": 14,
+            "contextualizer_input_tokens": 7,
+            "structured_action_span": [
+              7,
+              13
+            ],
+            "structured_context_span": null,
+            "structured_first_seen_at": "action_expert_input"
+          }
+        },
+        "action_3d": {
+          "action_expert_gradient_abs_sum": 16.222561951726675,
+          "actions_shape": [
+            88,
+            4,
+            7
+          ],
+          "all_required_gradients_nonzero": true,
+          "context_shape": [
+            88,
+            7,
+            64
+          ],
+          "contextualizer_gradient_abs_sum": 10.943247063085437,
+          "finite": true,
+          "projector_gradient_abs_sum": 1.2664792239665985,
+          "trace": {
+            "action_memory_tokens": 14,
+            "contextualizer_input_tokens": 7,
+            "structured_action_span": [
+              7,
+              13
+            ],
+            "structured_context_span": null,
+            "structured_first_seen_at": "action_expert_input"
+          }
+        },
+        "vl_2d": {
+          "action_expert_gradient_abs_sum": 20.563387975096703,
+          "actions_shape": [
+            88,
+            4,
+            7
+          ],
+          "all_required_gradients_nonzero": true,
+          "context_shape": [
+            88,
+            7,
+            64
+          ],
+          "contextualizer_gradient_abs_sum": 24.961594570428133,
+          "finite": true,
+          "projector_gradient_abs_sum": 1.991742130368948,
+          "trace": {
+            "action_memory_tokens": 14,
+            "contextualizer_input_tokens": 13,
+            "structured_action_span": [
+              7,
+              13
+            ],
+            "structured_context_span": [
+              7,
+              13
+            ],
+            "structured_first_seen_at": "contextualizer_input"
+          }
+        },
+        "vl_3d": {
+          "action_expert_gradient_abs_sum": 19.206847745925188,
+          "actions_shape": [
+            88,
+            4,
+            7
+          ],
+          "all_required_gradients_nonzero": true,
+          "context_shape": [
+            88,
+            7,
+            64
+          ],
+          "contextualizer_gradient_abs_sum": 22.92709554731846,
+          "finite": true,
+          "projector_gradient_abs_sum": 2.1565068662166595,
+          "trace": {
+            "action_memory_tokens": 14,
+            "contextualizer_input_tokens": 13,
+            "structured_action_span": [
+              7,
+              13
+            ],
+            "structured_context_span": [
+              7,
+              13
+            ],
+            "structured_first_seen_at": "contextualizer_input"
+          }
+        }
+      },
+      "device": "cpu"
+    },
+    {
+      "configurations": {
+        "action_2d": {
+          "action_expert_gradient_abs_sum": 38.596719816327095,
+          "actions_shape": [
+            8,
+            4,
+            7
+          ],
+          "all_required_gradients_nonzero": true,
+          "context_shape": [
+            8,
+            7,
+            64
+          ],
+          "contextualizer_gradient_abs_sum": 28.560605194419622,
+          "finite": true,
+          "projector_gradient_abs_sum": 2.8804173469543457,
+          "trace": {
+            "action_memory_tokens": 14,
+            "contextualizer_input_tokens": 7,
+            "structured_action_span": [
+              7,
+              13
+            ],
+            "structured_context_span": null,
+            "structured_first_seen_at": "action_expert_input"
+          }
+        },
+        "action_3d": {
+          "action_expert_gradient_abs_sum": 39.5828802511096,
+          "actions_shape": [
+            8,
+            4,
+            7
+          ],
+          "all_required_gradients_nonzero": true,
+          "context_shape": [
+            8,
+            7,
+            64
+          ],
+          "contextualizer_gradient_abs_sum": 29.282627169042826,
+          "finite": true,
+          "projector_gradient_abs_sum": 3.639053214341402,
+          "trace": {
+            "action_memory_tokens": 14,
+            "contextualizer_input_tokens": 7,
+            "structured_action_span": [
+              7,
+              13
+            ],
+            "structured_context_span": null,
+            "structured_first_seen_at": "action_expert_input"
+          }
+        },
+        "vl_2d": {
+          "action_expert_gradient_abs_sum": 37.31164272874594,
+          "actions_shape": [
+            8,
+            4,
+            7
+          ],
+          "all_required_gradients_nonzero": true,
+          "context_shape": [
+            8,
+            7,
+            64
+          ],
+          "contextualizer_gradient_abs_sum": 41.46316682547331,
+          "finite": true,
+          "projector_gradient_abs_sum": 2.4466471523046494,
+          "trace": {
+            "action_memory_tokens": 14,
+            "contextualizer_input_tokens": 13,
+            "structured_action_span": [
+              7,
+              13
+            ],
+            "structured_context_span": [
+              7,
+              13
+            ],
+            "structured_first_seen_at": "contextualizer_input"
+          }
+        },
+        "vl_3d": {
+          "action_expert_gradient_abs_sum": 37.56241961568594,
+          "actions_shape": [
+            8,
+            4,
+            7
+          ],
+          "all_required_gradients_nonzero": true,
+          "context_shape": [
+            8,
+            7,
+            64
+          ],
+          "contextualizer_gradient_abs_sum": 42.75351680070162,
+          "finite": true,
+          "projector_gradient_abs_sum": 3.091895427554846,
+          "trace": {
+            "action_memory_tokens": 14,
+            "contextualizer_input_tokens": 13,
+            "structured_action_span": [
+              7,
+              13
+            ],
+            "structured_context_span": [
+              7,
+              13
+            ],
+            "structured_first_seen_at": "contextualizer_input"
+          }
+        }
+      },
+      "device": "mps"
+    }
+  ],
+  "hidden_dim": 64,
+  "model_parameters": {
+    "per_configuration_difference": 0,
+    "total": 137991,
+    "trainable": 137991
+  },
+  "mps_available": true,
+  "pair_checks": {
+    "2d_output_equal_pairs": {
+      "action": 44,
+      "vl": 44
+    },
+    "action_context_equal_within_1e-6_3d_pairs": 44,
+    "action_context_max_pair_error": 4.76837158203125e-07,
+    "action_output_changed_3d_pairs": 44,
+    "vl_context_changed_3d_pairs": 44,
+    "vl_output_changed_3d_pairs": 44
+  },
+  "pairs": 44,
+  "scenes": 88,
+  "status": "PASS",
+  "traces": {
+    "action_2d": {
+      "action_memory_tokens": 14,
+      "actions_sha256": "4ef28fa7925e6d02c9901a8204908cf4eb0b2994a58ae5e3b9776a676da5bbef",
+      "contextual_features_sha256": "f93de953f5f7928a1faf446ab58b70c2d37ce658ec84755367040336f444ba9b",
+      "contextual_features_tokens": 7,
+      "contextualizer_input_tokens": 7,
+      "structured_action_span": [
+        7,
+        13
+      ],
+      "structured_context_span": null,
+      "structured_first_seen_at": "action_expert_input"
+    },
+    "action_3d": {
+      "action_memory_tokens": 14,
+      "actions_sha256": "8722afff6f8fd232763c9a32ecd7140a8b43a1251e27e8c4479f4a0206907bae",
+      "contextual_features_sha256": "f93de953f5f7928a1faf446ab58b70c2d37ce658ec84755367040336f444ba9b",
+      "contextual_features_tokens": 7,
+      "contextualizer_input_tokens": 7,
+      "structured_action_span": [
+        7,
+        13
+      ],
+      "structured_context_span": null,
+      "structured_first_seen_at": "action_expert_input"
+    },
+    "vl_2d": {
+      "action_memory_tokens": 14,
+      "actions_sha256": "1b524dafdf555c52a2f796412ba12cb36f4fc776d860e0f0a681afb98da08a7f",
+      "contextual_features_sha256": "7cc26e3ee630ec3f047edcd17850b996f17763afb2379d2fa2f1da1cb07a6138",
+      "contextual_features_tokens": 7,
+      "contextualizer_input_tokens": 13,
+      "structured_action_span": [
+        7,
+        13
+      ],
+      "structured_context_span": [
+        7,
+        13
+      ],
+      "structured_first_seen_at": "contextualizer_input"
+    },
+    "vl_3d": {
+      "action_memory_tokens": 14,
+      "actions_sha256": "732c8d30965be3d17d5be07b2af8f6e4b83e64dcf30ddef7cfa40d66a18f48f4",
+      "contextual_features_sha256": "3f47997e8acdf9d16d3f3952de511ee5d6573cf86495623f6fec3117e7807a47",
+      "contextual_features_tokens": 7,
+      "contextualizer_input_tokens": 13,
+      "structured_action_span": [
+        7,
+        13
+      ],
+      "structured_context_span": [
+        7,
+        13
+      ],
+      "structured_first_seen_at": "contextualizer_input"
+    }
+  }
+}
