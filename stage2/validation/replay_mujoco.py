@@ -9,12 +9,21 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 
 from stage2.data.generate import split_seed
 from stage2.envs.dual_clearance.expert import ExpertFailure, rollout_expert
 from stage2.envs.dual_clearance.geometry import Route, generate_pair
 from stage2.envs.dual_clearance.mujoco_env import DualClearanceMujocoEnv
+
+
+VISIBILITY_THRESHOLDS = {
+    "object_pixels": 120,
+    "goal_pixels": 300,
+    "central_route_pixels": 500,
+    "side_route_pixels": 500,
+    "robot_pixels": 3000,
+}
 
 
 def _json_hash(value: Any) -> str:
@@ -24,6 +33,21 @@ def _json_hash(value: Any) -> str:
 
 def _episode_id(split: str, pair_id: str, member: str) -> str:
     return f"{split}:{pair_id}:{member}"
+
+
+def _save_labeled_grid(
+    items: list[tuple[str, np.ndarray]], path: Path, *, columns: int = 4
+) -> None:
+    tile_height = 280
+    rows = (len(items) + columns - 1) // columns
+    canvas = Image.new("RGB", (columns * 256, rows * tile_height), "#111827")
+    draw = ImageDraw.Draw(canvas)
+    for item_index, (label, pixels) in enumerate(items):
+        left = (item_index % columns) * 256
+        top = (item_index // columns) * tile_height
+        canvas.paste(Image.fromarray(pixels), (left, top))
+        draw.text((left + 8, top + 260), label, fill="white")
+    canvas.save(path)
 
 
 def run_validation(config: dict[str, Any], output: Path) -> dict[str, Any]:
@@ -36,6 +60,7 @@ def run_validation(config: dict[str, Any], output: Path) -> dict[str, Any]:
     wrong_route_failures = 0
     collision_failures = 0
     height_failures = 0
+    contact_sheet_items: list[tuple[str, np.ndarray]] = []
 
     for split, count_value in config["splits"].items():
         count = int(count_value)
@@ -45,13 +70,27 @@ def run_validation(config: dict[str, Any], output: Path) -> dict[str, Any]:
             policy_images: list[np.ndarray] = []
             physical_images: list[np.ndarray] = []
             initial_states: list[list[float]] = []
+            visibility: dict[str, int] | None = None
             for scene in pair.members:
                 env = DualClearanceMujocoEnv(image_size=256)
                 observation = env.reset(scene)
                 policy_images.append(env.render())
                 physical_images.append(env.render_physical())
+                if visibility is None:
+                    visibility = env.visibility_metrics()
                 initial_states.append(observation["observation_state"])
-                result = rollout_expert(env)
+                keyframes: list[tuple[str, np.ndarray]] = []
+                callback = None
+                if not pair_checks:
+                    callback = lambda phase, active_env: keyframes.append(
+                        (phase, active_env.render())
+                    )
+                result = rollout_expert(env, waypoint_callback=callback)
+                if keyframes:
+                    _save_labeled_grid(
+                        keyframes,
+                        preview_dir / f"rollout_{scene.route_label.value}.png",
+                    )
                 correct_successes += int(result.success)
                 action_rows = [list(action) for action in result.actions]
                 rollouts.append(
@@ -105,17 +144,29 @@ def run_validation(config: dict[str, Any], output: Path) -> dict[str, Any]:
                     "physical_rgb_byte_identical": bool(
                         np.array_equal(physical_images[0], physical_images[1])
                     ),
+                    "visibility": visibility,
+                    "visibility_pass": bool(
+                        visibility is not None
+                        and all(
+                            visibility[name] >= threshold
+                            for name, threshold in VISIBILITY_THRESHOLDS.items()
+                        )
+                    ),
                 }
             )
             if len(pair_checks) == 1:
                 Image.fromarray(policy_images[0]).save(preview_dir / "policy_rgb.png")
                 Image.fromarray(physical_images[0]).save(preview_dir / "physical_over.png")
                 Image.fromarray(physical_images[1]).save(preview_dir / "physical_side.png")
+            if index == 0:
+                contact_sheet_items.append((split, policy_images[0]))
+
+    _save_labeled_grid(contact_sheet_items, preview_dir / "policy_contact_sheet.png")
 
     episode_count = len(rollouts)
     pair_count = len(pair_checks)
     summary = {
-        "schema_version": "dual-clearance-mujoco-m2-v1",
+        "schema_version": "dual-clearance-mujoco-m2.5-v1",
         "master_seed": int(config["master_seed"]),
         "pairs": pair_count,
         "episodes": episode_count,
@@ -134,6 +185,14 @@ def run_validation(config: dict[str, Any], output: Path) -> dict[str, Any]:
         "physical_rgb_byte_identical_pairs": sum(
             int(item["physical_rgb_byte_identical"]) for item in pair_checks
         ),
+        "visibility_thresholds": VISIBILITY_THRESHOLDS,
+        "minimum_visible_pixels": {
+            name: min(int(item["visibility"][name]) for item in pair_checks)
+            for name in VISIBILITY_THRESHOLDS
+        },
+        "visual_quality_pass_pairs": sum(
+            int(item["visibility_pass"]) for item in pair_checks
+        ),
         "min_episode_steps": min(item["steps"] for item in rollouts),
         "max_episode_steps": max(item["steps"] for item in rollouts),
         "pass": bool(
@@ -141,6 +200,7 @@ def run_validation(config: dict[str, Any], output: Path) -> dict[str, Any]:
             and wrong_route_failures == episode_count
             and all(item["policy_rgb_byte_identical"] for item in pair_checks)
             and all(item["initial_robot_state_identical"] for item in pair_checks)
+            and all(item["visibility_pass"] for item in pair_checks)
         ),
     }
     (output / "expert_rollouts.jsonl").write_text(
@@ -159,6 +219,9 @@ def run_validation(config: dict[str, Any], output: Path) -> dict[str, Any]:
         preview_dir / "policy_rgb.png",
         preview_dir / "physical_over.png",
         preview_dir / "physical_side.png",
+        preview_dir / "policy_contact_sheet.png",
+        preview_dir / "rollout_over.png",
+        preview_dir / "rollout_side.png",
     ]
     (output / "manifest.sha256").write_text(
         "".join(

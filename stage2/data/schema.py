@@ -183,15 +183,17 @@ def oracle_3d(scene: SceneGeometry) -> list[float]:
 
 
 def initial_robot_state(scene: SceneGeometry) -> list[float]:
+    # Nominal Cartesian state of PANDA_HOME_QPOS in the vendored model. Keep
+    # this simulator-independent fixture aligned with MujocoEnv.reset.
     return [
-        scene.layout.object_xy[0],
-        scene.layout.object_xy[1],
-        0.18,
+        0.30701957005161024,
         0.0,
+        0.4702695582766445,
         math.pi,
+        0.0006253787461082309,
         0.0,
         0.04,
-        -0.04,
+        0.04,
     ]
 
 

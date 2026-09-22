@@ -4,6 +4,7 @@ import unittest
 
 import numpy as np
 
+from stage2.data.schema import initial_robot_state
 from stage2.envs.dual_clearance.expert import ExpertFailure, rollout_expert
 from stage2.envs.dual_clearance.geometry import Route, generate_pair
 from stage2.envs.dual_clearance.mujoco_env import DualClearanceMujocoEnv
@@ -24,6 +25,20 @@ class MujocoEnvironmentTests(unittest.TestCase):
             env.close()
         self.assertTrue(np.array_equal(images[0], images[1]))
         self.assertEqual(states[0], states[1])
+        self.assertTrue(
+            np.allclose(states[0], initial_robot_state(self.pair.over_only), atol=1e-12)
+        )
+
+    def test_critical_scene_elements_are_visible(self) -> None:
+        env = DualClearanceMujocoEnv(image_size=256)
+        env.reset(self.pair.over_only)
+        metrics = env.visibility_metrics()
+        self.assertGreaterEqual(metrics["object_pixels"], 120)
+        self.assertGreaterEqual(metrics["goal_pixels"], 300)
+        self.assertGreaterEqual(metrics["central_route_pixels"], 500)
+        self.assertGreaterEqual(metrics["side_route_pixels"], 500)
+        self.assertGreaterEqual(metrics["robot_pixels"], 3000)
+        env.close()
 
     def test_correct_expert_completes_both_pair_members(self) -> None:
         for scene in self.pair.members:

@@ -13,7 +13,8 @@
 - 44 pair / 88 episode 正确与错误路线全量回放；
 - 配对策略 RGB 字节级相同审计。
 
-M2 设计和结果见 `M2_MUJOCO_EXPERT_REPLAY_REPORT_ZH.md`。
+M2 设计和结果见 `M2_MUJOCO_EXPERT_REPLAY_REPORT_ZH.md`，M2.5 视觉质量整改见
+`M2_5_VISUAL_QUALITY_REPORT_ZH.md`。
 
 生成并验证 Tiny 数据：
 

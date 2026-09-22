@@ -100,8 +100,8 @@ class DualClearanceMujocoEnv:
             for geom_id in range(self.model.ngeom)
             if (name := mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_GEOM, geom_id))
             and (
-                name == "central_obstacle"
-                or name == "side_gate_beam"
+                name == "central_obstacle_collision"
+                or name == "side_gate_beam_collision"
                 or name.startswith("barrier_filler_")
                 or name.startswith("outer_wall_")
             )
@@ -366,63 +366,97 @@ class DualClearanceMujocoEnv:
             "steps": self.steps,
         }
 
-    def _render_current_model(self) -> np.ndarray:
-        model, data, scene = self._require_ready()
-        if self.renderer is None:
-            raise RuntimeError("Renderer is not initialized")
+    @staticmethod
+    def _policy_camera(scene: SceneGeometry) -> mujoco.MjvCamera:
         camera = mujoco.MjvCamera()
         camera.type = mujoco.mjtCamera.mjCAMERA_FREE
-        camera.lookat[:] = [0.5, 0.0, 0.0]
-        camera.distance = 1.8
-        camera.azimuth = 90.0 + math.degrees(scene.layout.camera_yaw)
-        camera.elevation = -90.0
+        camera.lookat[:] = [0.50, 0.0, 0.08]
+        camera.distance = 1.90
+        camera.azimuth = 110.0 + math.degrees(scene.layout.camera_yaw)
+        camera.elevation = -70.0
         camera.orthographic = 1
-        self.renderer.update_scene(data, camera=camera)
+        return camera
+
+    def _render_current_model(self) -> np.ndarray:
+        _, data, scene = self._require_ready()
+        if self.renderer is None:
+            raise RuntimeError("Renderer is not initialized")
+        self.renderer.update_scene(data, camera=self._policy_camera(scene))
         return self.renderer.render().copy()
+
+    def render_segmentation(self) -> np.ndarray:
+        """Return MuJoCo ``[object_id, object_type]`` policy-view pixels."""
+
+        _, data, scene = self._require_ready()
+        if self.renderer is None:
+            raise RuntimeError("Renderer is not initialized")
+        self.renderer.update_scene(data, camera=self._policy_camera(scene))
+        self.renderer.enable_segmentation_rendering()
+        try:
+            return self.renderer.render().copy()
+        finally:
+            self.renderer.disable_segmentation_rendering()
+
+    def visibility_metrics(self) -> dict[str, int]:
+        """Count visible pixels for the objects needed to understand the task."""
+
+        model, _, _ = self._require_ready()
+        segmentation = self.render_segmentation()
+        geom_pixels = segmentation[..., 0][
+            segmentation[..., 1] == int(mujoco.mjtObj.mjOBJ_GEOM)
+        ]
+
+        def count(name: str) -> int:
+            geom_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, name)
+            return int(np.count_nonzero(geom_pixels == geom_id))
+
+        robot_visual_ids = np.flatnonzero(model.geom_group == 2)
+        return {
+            "object_pixels": count("object_geom"),
+            "goal_pixels": count("goal"),
+            "central_route_pixels": count("central_obstacle_visual"),
+            "side_route_pixels": count("side_gate_beam_visual"),
+            "robot_pixels": int(np.count_nonzero(np.isin(geom_pixels, robot_visual_ids))),
+        }
 
     def render_physical(self) -> np.ndarray:
         """Render the actual member-specific obstacle heights for diagnostics."""
 
-        return self._render_current_model()
-
-    def render(self) -> np.ndarray:
-        """Render the policy RGB with registered Z differences hidden.
-
-        Counterfactual members must expose the same RGB/XY evidence.  The
-        collision model remains member-specific; only the two Z-dependent
-        geom dimensions are temporarily projected to their shared feasibility
-        boundary while the image is produced.
-        """
-
-        model, data, scene = self._require_ready()
-        central_id = mujoco.mj_name2id(
-            model, mujoco.mjtObj.mjOBJ_GEOM, "central_obstacle"
+        model, data, _ = self._require_ready()
+        central_collision = mujoco.mj_name2id(
+            model, mujoco.mjtObj.mjOBJ_GEOM, "central_obstacle_collision"
         )
-        gate_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, "side_gate_beam")
-        saved_central_pos = model.geom_pos[central_id].copy()
-        saved_central_size = model.geom_size[central_id].copy()
-        saved_gate_pos = model.geom_pos[gate_id].copy()
-        saved_gate_size = model.geom_size[gate_id].copy()
-
-        half_z = scene.layout.object_half_xyz[2]
-        canonical_top = (
-            scene.layout.robot_max_carry_z - half_z - scene.layout.safety_margin
+        gate_collision = mujoco.mj_name2id(
+            model, mujoco.mjtObj.mjOBJ_GEOM, "side_gate_beam_collision"
         )
-        canonical_clearance = 2.0 * half_z + scene.layout.safety_margin
-        model.geom_pos[central_id, 2] = canonical_top / 2.0
-        model.geom_size[central_id, 2] = canonical_top / 2.0
-        gate_half_z = (WALL_HEIGHT - canonical_clearance) / 2.0
-        model.geom_pos[gate_id, 2] = canonical_clearance + gate_half_z
-        model.geom_size[gate_id, 2] = gate_half_z
+        central_visual = mujoco.mj_name2id(
+            model, mujoco.mjtObj.mjOBJ_GEOM, "central_obstacle_visual"
+        )
+        gate_visual = mujoco.mj_name2id(
+            model, mujoco.mjtObj.mjOBJ_GEOM, "side_gate_beam_visual"
+        )
+        ids = [central_collision, gate_collision, central_visual, gate_visual]
+        saved = model.geom_rgba[ids].copy()
+        model.geom_rgba[central_collision] = [0.90, 0.58, 0.12, 1.0]
+        model.geom_rgba[gate_collision] = [0.10, 0.62, 0.52, 1.0]
+        model.geom_rgba[central_visual, 3] = 0.0
+        model.geom_rgba[gate_visual, 3] = 0.0
         mujoco.mj_forward(model, data)
         try:
             return self._render_current_model()
         finally:
-            model.geom_pos[central_id] = saved_central_pos
-            model.geom_size[central_id] = saved_central_size
-            model.geom_pos[gate_id] = saved_gate_pos
-            model.geom_size[gate_id] = saved_gate_size
+            model.geom_rgba[ids] = saved
             mujoco.mj_forward(model, data)
+
+    def render(self) -> np.ndarray:
+        """Render the policy RGB with registered Z differences hidden.
+
+        Counterfactual members expose the same RGB/XY evidence through shared
+        visual shells.  Member-specific Z geometry remains active in separate,
+        invisible collision geoms.
+        """
+
+        return self._render_current_model()
 
     def initial_rgb_sha256(self) -> str:
         return hashlib.sha256(self.render().tobytes()).hexdigest()

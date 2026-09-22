@@ -88,7 +88,7 @@ side_gate_clearance_z >= 2*object_half_z + safety_margin
 ## 自动验证结果
 
 ```text
-21 tests: PASS
+22 tests: PASS
 STAGE2_DATA_VALIDATE=PASS records=88 pairs=44
 STAGE2_SHORTCUT_AUDIT=PASS 2d=0.500 3d_single=0.844 3d_relational=1.000
 STAGE1_FREEZE_VERIFY=PASS files=303 bytes=5224662284

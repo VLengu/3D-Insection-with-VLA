@@ -27,13 +27,15 @@ def _box(
     rgba: str,
     *,
     collision: bool = True,
+    visible: bool = True,
 ) -> str:
     contact = 'contype="2" conaffinity="4"' if collision else 'contype="0" conaffinity="0"'
+    rendered_rgba = rgba if visible else "0 0 0 0"
     return (
         f'<geom name="{escape(name)}" type="box" '
         f'pos="{pos[0]:.9f} {pos[1]:.9f} {pos[2]:.9f}" '
         f'size="{size[0]:.9f} {size[1]:.9f} {size[2]:.9f}" '
-        f'rgba="{rgba}" {contact} friction="1 0.01 0.001"/>'
+        f'rgba="{rendered_rgba}" {contact} friction="1 0.01 0.001"/>'
     )
 
 
@@ -80,23 +82,57 @@ def build_scene_xml(scene: SceneGeometry) -> str:
         raise FileNotFoundError(f"Vendored Panda XML is missing: {VENDOR_PANDA_XML}")
     layout = scene.layout
     barrier_half_x = max(layout.central_half_xy[0], layout.side_gate_half_xy[0])
-    central = _box(
-        "central_obstacle",
+    central_collision = _box(
+        "central_obstacle_collision",
         (layout.central_xy[0], layout.central_xy[1], scene.central_top_z / 2.0),
         (layout.central_half_xy[0], layout.central_half_xy[1], scene.central_top_z / 2.0),
-        "0.42 0.43 0.46 1",
+        "0.90 0.58 0.12 1",
+        visible=False,
     )
     beam_top = WALL_HEIGHT
     beam_half_z = (beam_top - scene.side_gate_clearance_z) / 2.0
-    gate_beam = _box(
-        "side_gate_beam",
+    gate_collision = _box(
+        "side_gate_beam_collision",
         (
             layout.side_gate_xy[0],
             layout.side_gate_xy[1],
             scene.side_gate_clearance_z + beam_half_z,
         ),
         (layout.side_gate_half_xy[0], layout.side_gate_half_xy[1], beam_half_z),
-        "0.42 0.43 0.46 1",
+        "0.10 0.62 0.52 1",
+        visible=False,
+    )
+    # Counterfactual members share these visible shells.  Their registered
+    # member-specific Z geometry remains active in the invisible collision
+    # geoms above, so appearance cannot reveal the correct route.
+    canonical_top = (
+        layout.robot_max_carry_z
+        - layout.object_half_xyz[2]
+        - layout.safety_margin
+    )
+    canonical_clearance = 2.0 * layout.object_half_xyz[2] + layout.safety_margin
+    visible_central = _box(
+        "central_obstacle_visual",
+        (layout.central_xy[0], layout.central_xy[1], canonical_top / 2.0),
+        (layout.central_half_xy[0], layout.central_half_xy[1], canonical_top / 2.0),
+        "0.90 0.58 0.12 1",
+        collision=False,
+    )
+    visible_gate_half_z = (WALL_HEIGHT - canonical_clearance) / 2.0
+    visible_gate = _box(
+        "side_gate_beam_visual",
+        (
+            layout.side_gate_xy[0],
+            layout.side_gate_xy[1],
+            canonical_clearance + visible_gate_half_z,
+        ),
+        (
+            layout.side_gate_half_xy[0],
+            layout.side_gate_half_xy[1],
+            visible_gate_half_z,
+        ),
+        "0.10 0.62 0.52 1",
+        collision=False,
     )
     fillers = "\n      ".join(_barrier_fillers(scene, barrier_half_x))
     object_pos = (
@@ -117,21 +153,23 @@ def build_scene_xml(scene: SceneGeometry) -> str:
     <camera name="top_camera" mode="fixed" pos="0.5 0 1.8" quat="1 0 0 0" fovy="42"/>
     <light name="flat_light" pos="0.5 0 2" dir="0 0 -1" directional="true"
       castshadow="false" ambient="0.7 0.7 0.7" diffuse="0.3 0.3 0.3" specular="0 0 0"/>
-    <geom name="table" type="plane" size="1 1 0.05" rgba="0.86 0.84 0.78 1"
+    <geom name="table" type="plane" size="1 1 0.05" rgba="0.24 0.28 0.34 1"
       contype="1" conaffinity="5" friction="1 0.01 0.001"/>
     <geom name="goal" type="cylinder"
       pos="{layout.goal_xy[0]:.9f} {layout.goal_xy[1]:.9f} 0.002"
-      size="{goal_radius:.9f} 0.002" rgba="0.08 0.28 0.90 1"
+      size="{goal_radius:.9f} 0.002" rgba="0.08 0.30 1.00 1"
       contype="0" conaffinity="0"/>
     <body name="object" pos="{object_pos[0]:.9f} {object_pos[1]:.9f} {object_pos[2]:.9f}">
       <freejoint name="object_freejoint"/>
       <geom name="object_geom" type="box"
         size="{layout.object_half_xyz[0]:.9f} {layout.object_half_xyz[1]:.9f} {layout.object_half_xyz[2]:.9f}"
-        rgba="0.85 0.06 0.04 1" mass="0.08" contype="4" conaffinity="3"
+        rgba="1.00 0.12 0.04 1" mass="0.08" contype="4" conaffinity="3"
         friction="1.2 0.02 0.002"/>
     </body>
-    {central}
-    {gate_beam}
+    {central_collision}
+    {gate_collision}
+    {visible_central}
+    {visible_gate}
     {fillers}
     {_box("outer_wall_top", (0.5, WORKSPACE_Y[1] + 0.025, WALL_HEIGHT / 2), (0.5, 0.025, WALL_HEIGHT / 2), "0.25 0.27 0.30 1")}
     {_box("outer_wall_bottom", (0.5, WORKSPACE_Y[0] - 0.025, WALL_HEIGHT / 2), (0.5, 0.025, WALL_HEIGHT / 2), "0.25 0.27 0.30 1")}

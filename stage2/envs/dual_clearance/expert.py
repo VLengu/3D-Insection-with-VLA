@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Iterable
+from typing import Callable, Iterable
 
 import numpy as np
 
@@ -92,6 +92,7 @@ def rollout_expert(
     env: DualClearanceMujocoEnv,
     *,
     forced_route: Route | None = None,
+    waypoint_callback: Callable[[str, DualClearanceMujocoEnv], None] | None = None,
 ) -> ExpertResult:
     """Execute a complete grasp/carry/place rollout in an already reset env.
 
@@ -107,12 +108,19 @@ def rollout_expert(
     half_x, _, half_z = layout.object_half_xyz
     actions: list[tuple[float, ...]] = []
 
+    def mark(phase: str) -> None:
+        if waypoint_callback is not None:
+            waypoint_callback(phase, env)
+
     pickup_z = half_z + 0.003
+    mark("initial")
     _move(env, (*layout.object_xy, max(0.18, pickup_z + 0.08)), actions)
     _move(env, (*layout.object_xy, pickup_z), actions)
+    mark("approach")
     _gripper(env, -1.0, actions)
     if not env.grasped:
         raise ExpertFailure("Assisted grasp did not attach the object")
+    mark("grasp")
 
     if route is Route.OVER:
         route_y = layout.central_xy[1]
@@ -131,8 +139,11 @@ def rollout_expert(
     after_x = barrier_x + crossing_span
 
     _move(env, (*layout.object_xy, carry_z), actions)
+    mark("raised")
     _move(env, (before_x, route_y, carry_z), actions)
+    mark("before_barrier")
     _move(env, (after_x, route_y, carry_z), actions)
+    mark("after_barrier")
 
     # The fixed downward wrist orientation has less reach at high Z.  Once the
     # object is safely beyond the barrier, lower before travelling to the goal.
@@ -141,7 +152,9 @@ def rollout_expert(
     _move(env, (after_x, layout.goal_xy[1], transfer_z), actions)
     _move(env, (*layout.goal_xy, transfer_z), actions)
     _move(env, (*layout.goal_xy, pickup_z), actions, tolerance=0.005)
+    mark("at_goal")
     _gripper(env, 1.0, actions)
+    mark("released")
 
     final_info = env.info()
     return ExpertResult(
