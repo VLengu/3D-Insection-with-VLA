@@ -1,6 +1,6 @@
 # 第二阶段：Mac 本地构建、验证与 GPU 实验交接方案
 
-更新日期：2026-09-21
+更新日期：2026-09-22
 
 ## 0. 报告结论
 
@@ -923,8 +923,9 @@ checkpoint 仅根据 validation 选择。建议采用预先固定的词典序规
 
 ## 17. 当前已知平台事实与参考
 
-- 本机为 Apple Silicon，MPS 可用但无 CUDA；当前环境尚未安装 LeRobot、
-  Transformers、Datasets、Accelerate 和 PEFT。
+- 本机为 Apple Silicon，MPS 可用但无 CUDA；M3 环境已安装并锁定 LeRobot
+  0.6.1、Datasets 4.8.5、PyTorch 2.11.0 等数据链路依赖。Transformers、
+  Accelerate 和 PEFT 留到模型接口阶段按实际版本兼容性加入。
 - LeRobotDataset v3 使用 Parquet 保存低维时序数据、MP4 保存视觉流，并通过
   metadata 保存 schema、统计量、任务和 episode 边界：
   <https://huggingface.co/docs/lerobot/lerobot-dataset-v3>
@@ -937,4 +938,3 @@ checkpoint 仅根据 validation 选择。建议采用预先固定的词典序规
 
 因此，Mac 阶段的完成标准是“工程与科学协议已验证并可移交”，而不是在本机
 复现最终 SmolVLA 训练结果。
-

@@ -1,0 +1,30 @@
+{
+  "checked_frames": 6998,
+  "dataset_bytes": 128390169,
+  "dataset_files": 8,
+  "dataset_tree_sha256": "d674e0d33ade6f39c7d57a8701f0592af76fcc9cc94a26a2abf58be2aeb0c8f8",
+  "episodes": 88,
+  "errors": [],
+  "format": "LeRobotDataset-v3",
+  "frames": 6998,
+  "lerobot_repo_id": "vlengu/dual-clearance-tiny-local",
+  "max_roundtrip_absolute_error": {
+    "action": 0.0,
+    "oracle_2d": 0.0,
+    "oracle_3d": 0.0,
+    "state": 0.0
+  },
+  "paired_initial_rgb_identical": 44,
+  "pairs": 44,
+  "split_episode_counts": {
+    "camera_ood": 8,
+    "compound_ood": 8,
+    "height_ood": 8,
+    "layout_ood": 8,
+    "paired_test": 16,
+    "train": 32,
+    "val": 8
+  },
+  "status": "PASS",
+  "use_videos": false
+}
