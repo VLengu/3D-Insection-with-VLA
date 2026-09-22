@@ -10,6 +10,7 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 /venv/
+/venv_stage2/
 /.venv/
 
 # Large generated datasets and checkpoints. Their Stage-1 hashes are recorded

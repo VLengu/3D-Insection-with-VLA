@@ -1,0 +1,4 @@
+# M2 Mac build and validation environment (Python 3.12).
+mujoco==3.13.0
+numpy==2.4.3
+Pillow==12.1.1

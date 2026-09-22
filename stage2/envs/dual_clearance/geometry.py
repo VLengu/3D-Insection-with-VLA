@@ -103,18 +103,16 @@ def _uniform(rng: random.Random, low: float, high: float) -> float:
 def _layout_ranges(split: str) -> dict[str, tuple[float, float]]:
     if split in {"layout_ood", "compound_ood"}:
         return {
-            "central_x": (0.39, 0.61),
-            "central_y": (-0.11, 0.11),
-            "central_half_x": (0.075, 0.105),
-            "central_half_y": (0.13, 0.19),
-            "side_abs_y": (0.30, 0.38),
+            "central_x": (0.59, 0.66),
+            "central_y": (-0.06, 0.06),
+            "central_half_x": (0.05, 0.07),
+            "central_half_y": (0.12, 0.16),
         }
     return {
-        "central_x": (0.45, 0.55),
+        "central_x": (0.61, 0.64),
         "central_y": (-0.05, 0.05),
-        "central_half_x": (0.055, 0.08),
+        "central_half_x": (0.045, 0.065),
         "central_half_y": (0.10, 0.145),
-        "side_abs_y": (0.235, 0.295),
     }
 
 
@@ -135,34 +133,43 @@ def _camera_yaw(rng: random.Random, split: str) -> float:
 def _generate_layout(rng: random.Random, split: str) -> BaseLayout:
     ranges = _layout_ranges(split)
     side_sign = -1.0 if rng.random() < 0.5 else 1.0
+    safety_margin = _uniform(rng, 0.012, 0.025)
+    object_half_x = _uniform(rng, 0.028, 0.052)
+    object_half_y = _uniform(rng, 0.028, 0.052)
     # A wide object-height range deliberately overlaps absolute gate and
     # obstacle heights across route labels.  Feasibility must be inferred
     # relationally rather than from a single height threshold.
     object_half_z = _uniform(rng, 0.02, 0.09)
+    central_x = _uniform(rng, *ranges["central_x"])
+    central_y = _uniform(rng, *ranges["central_y"])
+    central_half_y = _uniform(rng, *ranges["central_half_y"])
+    side_half_y = object_half_y + safety_margin + _uniform(rng, 0.015, 0.03)
+    corridor_gap = _uniform(rng, 0.025, 0.045)
+    if side_sign > 0:
+        side_y = central_y + central_half_y + side_half_y + corridor_gap
+    else:
+        side_y = central_y - central_half_y - side_half_y - corridor_gap
+    if abs(side_y) + side_half_y >= 0.48:
+        raise ValueError("Generated side corridor exceeds workspace bounds")
     return BaseLayout(
-        object_xy=(_uniform(rng, 0.11, 0.21), _uniform(rng, -0.16, 0.16)),
-        goal_xy=(_uniform(rng, 0.79, 0.89), _uniform(rng, -0.16, 0.16)),
-        central_xy=(
-            _uniform(rng, *ranges["central_x"]),
-            _uniform(rng, *ranges["central_y"]),
-        ),
+        # These ranges lie inside the real Panda's reliable downward-grasp
+        # workspace.  They also leave clearance on both sides of the barrier.
+        object_xy=(_uniform(rng, 0.42, 0.46), _uniform(rng, -0.16, 0.16)),
+        goal_xy=(_uniform(rng, 0.79, 0.82), _uniform(rng, -0.16, 0.16)),
+        central_xy=(central_x, central_y),
         central_half_xy=(
             _uniform(rng, *ranges["central_half_x"]),
-            _uniform(rng, *ranges["central_half_y"]),
+            central_half_y,
         ),
-        side_gate_xy=(
-            _uniform(rng, 0.44, 0.56),
-            side_sign * _uniform(rng, *ranges["side_abs_y"]),
-        ),
-        side_gate_half_xy=(_uniform(rng, 0.05, 0.075), _uniform(rng, 0.035, 0.055)),
+        side_gate_xy=(central_x, side_y),
+        side_gate_half_xy=(_uniform(rng, 0.05, 0.075), side_half_y),
         robot_base_xy=(0.0, 0.0),
-        object_half_xyz=(
-            _uniform(rng, 0.028, 0.052),
-            _uniform(rng, 0.028, 0.052),
-            object_half_z,
-        ),
-        robot_max_carry_z=_uniform(rng, 0.285, 0.43),
-        safety_margin=_uniform(rng, 0.012, 0.035),
+        object_half_xyz=(object_half_x, object_half_y, object_half_z),
+        # Calibrated against the fixed-downward Panda IK workspace used by the
+        # Mac validator; higher values are mathematically valid but not
+        # executable near the far side of the barrier.
+        robot_max_carry_z=_uniform(rng, 0.285, 0.38),
+        safety_margin=safety_margin,
         camera_yaw=_camera_yaw(rng, split),
     )
 

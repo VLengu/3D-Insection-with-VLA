@@ -1,0 +1,18 @@
+{
+  "correct_expert_success_rate": 1.0,
+  "correct_expert_successes": 88,
+  "episodes": 88,
+  "initial_robot_state_identical_pairs": 44,
+  "master_seed": 20260921,
+  "max_episode_steps": 117,
+  "min_episode_steps": 49,
+  "pairs": 44,
+  "pass": true,
+  "physical_rgb_byte_identical_pairs": 0,
+  "policy_rgb_byte_identical_pairs": 44,
+  "schema_version": "dual-clearance-mujoco-m2-v1",
+  "wrong_route_collision_failures": 44,
+  "wrong_route_height_failures": 44,
+  "wrong_route_physical_failures": 88,
+  "wrong_route_rejection_rate": 1.0
+}

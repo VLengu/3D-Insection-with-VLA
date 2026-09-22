@@ -3,12 +3,17 @@
 本目录实现第二阶段的独立数据与模型接口。第一阶段的 `uwm3d/`、`scripts/`、
 数据和 checkpoint 不在此处修改。
 
-当前里程碑只包含与模拟器无关的部分：
+当前已完成 M1 几何/数据契约和 M2 MuJoCo/专家回放：
 
 - Dual-Clearance 成对几何生成；
 - 模型输入与评估元数据 Schema；
 - Tiny 数据生成；
 - 配对、可行性、划分、复现性和标签泄漏检查。
+- Franka Panda MuJoCo 场景、7D 动作环境和解析专家；
+- 44 pair / 88 episode 正确与错误路线全量回放；
+- 配对策略 RGB 字节级相同审计。
+
+M2 设计和结果见 `M2_MUJOCO_EXPERT_REPLAY_REPORT_ZH.md`。
 
 生成并验证 Tiny 数据：
 
@@ -31,6 +36,16 @@
 ./venv/bin/python -m unittest discover -s stage2/tests -v
 
 shasum -a 256 -c stage2/fixtures/tiny/manifest.sha256
+```
+
+MuJoCo 环境和 M2 全量回放：
+
+```bash
+python3 -m venv venv_stage2
+venv_stage2/bin/pip install -r stage2/requirements-macos.txt
+venv_stage2/bin/python -m stage2.validation.replay_mujoco \
+  --config stage2/configs/dataset_tiny.json \
+  --output stage2/fixtures/mujoco_tiny
 ```
 
 ## 坐标与动作契约

@@ -1,8 +1,8 @@
 {
   "failures": [],
   "oracle_2d_best_single_field_accuracy": 0.5,
-  "oracle_3d_best_single_field": "side_gate_clearance_z",
-  "oracle_3d_best_single_field_accuracy": 0.78125,
+  "oracle_3d_best_single_field": "central_center_z",
+  "oracle_3d_best_single_field_accuracy": 0.84375,
   "oracle_3d_relational_rule_accuracy": 1.0,
   "per_field": {
     "observation_state": {
@@ -34,10 +34,10 @@
     },
     "oracle_3d": {
       "camera_yaw": 0.5,
-      "central_center_z": 0.71875,
+      "central_center_z": 0.84375,
       "central_half_x": 0.5,
       "central_half_y": 0.5,
-      "central_half_z": 0.71875,
+      "central_half_z": 0.84375,
       "central_x": 0.5,
       "central_y": 0.5,
       "goal_x": 0.5,

@@ -73,24 +73,24 @@ side_gate_clearance_z >= 2*object_half_z + safety_margin
 | 语言文本查表 | 0.500 |
 | 初始状态最佳单字段阈值 | 0.500 |
 | 2D oracle最佳单字段阈值 | 0.500 |
-| 3D oracle最佳单字段阈值 | 0.781 |
+| 3D oracle最佳单字段阈值 | 0.844 |
 | 注册的3D关系规则 | 1.000 |
 
-最强3D单字段是 `side_gate_clearance_z`，准确率为`0.781`，低于预设的
+最强3D单字段是 `central_center_z`，准确率为`0.844`，低于预设的
 `0.950`拒绝阈值。完整关系规则恢复全部标签，说明决定信息存在于字段关系中。
 
 第一版生成器曾出现两项问题，均由测试发现并修复：
 
 1. Height-OOD 小物体可能产生负门洞净空；现已限制为物理有效的最小开口；
 2. 初始门洞高度分布可被单字段以`0.969`准确率预测路线；现已扩大物体尺寸、
-   机器人能力和净空范围的交叠，使单字段准确率降至`0.781`。
+   机器人能力和净空范围的交叠，使单字段准确率保持在拒绝阈值以下。
 
 ## 自动验证结果
 
 ```text
-16 tests: PASS
+21 tests: PASS
 STAGE2_DATA_VALIDATE=PASS records=88 pairs=44
-STAGE2_SHORTCUT_AUDIT=PASS 2d=0.500 3d_single=0.781 3d_relational=1.000
+STAGE2_SHORTCUT_AUDIT=PASS 2d=0.500 3d_single=0.844 3d_relational=1.000
 STAGE1_FREEZE_VERIFY=PASS files=303 bytes=5224662284
 ```
 
