@@ -32,6 +32,8 @@ LeRobot 导出设计和结果见 `M3_LEROBOT_ROUNDTRIP_REPORT_ZH.md`。
 Projector 设计和 Gate M4A 结果见 `GATE_M4A_STRUCTURED_PROJECTOR_REPORT_ZH.md`。
 注入边界设计和 Gate M4B 结果见 `GATE_M4B_INJECTION_BOUNDARY_REPORT_ZH.md`。
 TinyContractVLA 和完整 Gate M4 结果见 `GATE_M4C_TINY_CONTRACT_VLA_REPORT_ZH.md`。
+Gate M5 Mac 侧 GPU 交接包及其待 GPU 放行边界见
+`GATE_M5_GPU_HANDOFF_REPORT_ZH.md` 和 `../stage2_gpu/README_GPU_ZH.md`。
 
 生成并验证 Tiny 数据：
 

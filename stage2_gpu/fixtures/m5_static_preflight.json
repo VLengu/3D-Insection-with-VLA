@@ -1,0 +1,24 @@
+{
+  "config_sha256": {
+    "a_2d": "f15113a4625bb28468b44c63f2e9a9f5daa58c1e47dfdedb38a5ed22a962c3c4",
+    "a_3d": "b5904e81db41d938d5ce1ac314265ba0107d431c73208b29dbd3b2c5d171c134",
+    "vl_2d": "8ff9b614014e91b143e4639656759bb00b4365afda78b637ee32d0dc66131e24",
+    "vl_3d": "e595d14ce2a286becca560991ce4fa181e56a5873c7658426937d2d0e051a6b6"
+  },
+  "configs": [
+    "a_2d",
+    "a_3d",
+    "vl_2d",
+    "vl_3d"
+  ],
+  "package_version": "gate-m5-v1",
+  "shell_scripts": [
+    "formal_sweep.sh",
+    "locked_evaluate.sh",
+    "overfit.sh",
+    "pilot.sh",
+    "preflight.sh",
+    "smoke.sh"
+  ],
+  "status": "pass"
+}

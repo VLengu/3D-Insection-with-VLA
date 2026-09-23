@@ -1,0 +1,21 @@
+{
+  "config_version": "smolvla-structured-injection-v1",
+  "condition": "vl_3d",
+  "dataset": {
+    "role": "formal",
+    "root": "${FORMAL_DATASET_ROOT}",
+    "manifest": "dataset-manifest.sha256",
+    "train_visible_splits": ["train", "val"],
+    "locked_splits": ["paired_test", "height_ood", "layout_ood", "camera_ood", "compound_ood"]
+  },
+  "policy": {
+    "type": "smolvla",
+    "model_id": "lerobot/smolvla_base",
+    "model_revision": "d9f33c94a60fb382c90dea2164c96845bd955e28",
+    "lerobot_version": "0.6.1",
+    "lerobot_revision": "7e241bd630a3719a56157a497ce5d08f244784f1"
+  },
+  "injection": {"site": "vl", "modality": "3d", "tokens": 6, "raw_width": 8, "projector_version": "typed-structured-projector-v1"},
+  "training": {"batch_size": 8, "gradient_accumulation": 1, "learning_rate": 0.0001, "steps": 500, "checkpoint_every": 250, "precision": "bfloat16"},
+  "run": {"name": "vl_3d_seed42", "seed": 42, "output_root": "${STAGE2_GPU_OUTPUT_ROOT}", "allow_overwrite": false}
+}

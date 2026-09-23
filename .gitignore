@@ -28,6 +28,10 @@ __pycache__/
 stage2/generated_data/
 stage2/checkpoints/
 stage2/outputs/
+stage2_gpu/runtime/
+stage2_gpu/fixtures/*.json
+!stage2_gpu/fixtures/m5_static_preflight.json
+.venv_gpu/
 
 # Local secrets and machine-specific configuration
 .env

@@ -1,0 +1,15 @@
+{
+  "captured_utc": "2026-09-23T00:00:00Z",
+  "lerobot": {
+    "repository": "https://github.com/huggingface/lerobot.git",
+    "release": "0.6.1",
+    "tag": "v0.6.1",
+    "commit": "7e241bd630a3719a56157a497ce5d08f244784f1"
+  },
+  "smolvla": {
+    "repository": "lerobot/smolvla_base",
+    "revision": "d9f33c94a60fb382c90dea2164c96845bd955e28",
+    "model_safetensors_sha256": "7cd549ac2351fb069c0ddb3c34ad2d09cfc92b56a15dccdfc2e41467aaca01eb"
+  },
+  "note": "Tiny is pipeline validation only; a formal dataset receives a separate immutable manifest."
+}

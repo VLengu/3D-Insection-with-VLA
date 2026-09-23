@@ -1,0 +1,7 @@
+# Gate M5 source lock. CUDA-specific torch wheels are installed by the base image.
+# LeRobot is pinned both by release and immutable Git commit.
+lerobot[smolvla] @ git+https://github.com/huggingface/lerobot.git@7e241bd630a3719a56157a497ce5d08f244784f1
+mujoco==3.13.0
+numpy==2.2.6
+pillow==12.1.1
+pyarrow==25.0.1
