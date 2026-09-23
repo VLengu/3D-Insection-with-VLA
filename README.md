@@ -19,6 +19,8 @@
 > `stage2/GATE_M4C_TINY_CONTRACT_VLA_REPORT_ZH.md`。
 > Gate M5 Mac 侧 GPU 交接包报告见
 > `stage2/GATE_M5_GPU_HANDOFF_REPORT_ZH.md`；真实 GPU 放行项仍需在 Linux/CUDA 上完成。
+> 当前工作总结和下一阶段唯一优先交接入口见
+> `docs/CURRENT_STATUS_AND_NEXT_STAGE_GUIDE_ZH.md`。
 
 这是一个面向 Apple Silicon 本地实验的最小验证项目。它不复现大规模 UWM 预训练，而是隔离检验一个假设：**在高噪声的反向扩散初期，用显式 3D 关系修正动作噪声预测，是否比后期或全程修正更有效。**
 
